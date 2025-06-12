@@ -1,6 +1,6 @@
 # LiveConnect — Full-Stack Video Conferencing App
 
-🚀 [Click here to use LiveConnect](https://liveconnectfrontend.onrender.com) — Start your video meetings instantly!
+🚀 [Click here to use LiveConnect](https://liveconnectfrontend.onrender.com) (https://liveconnectfrontend.onrender.com) — Start your video meetings instantly!
 
 **LiveConnect** is a **Zoom-inspired**, real-time video conferencing application built with the modern **MERN stack**, **WebRTC**, and **Socket.io**.  
 This project demonstrates my expertise in full-stack development, real-time communication, and scalable web applications.
