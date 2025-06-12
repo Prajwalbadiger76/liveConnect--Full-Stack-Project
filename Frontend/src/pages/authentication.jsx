@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
+import {SnackbarContent} from '@mui/material';
 
 
 const defaultTheme = createTheme();
@@ -35,17 +36,24 @@ export default function Authentication() {
 
     let handleAuth = async()=> {
       try{
-        if(formState===0) {
+        if(formState === 0) {
+        let result = await handleLogin(username, password);
 
         }
-        if(formState===1) {
+        if(formState === 1) {
           let result = await handleRegister(name, username, password);
           console.log(result);
+          setUsername("");
           setMessage(result);
           setOpen(true);
+          setError("");
+          setFormState(0);
+          setPassword("");
+
         }
       } catch (err) {
-        let messsage = (error.response.data.messsage);
+        console.log(err);
+        let messsage = (err.response.data.message);
         setError(messsage);
       }
     }
@@ -77,6 +85,7 @@ export default function Authentication() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              width: '30rem' 
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -92,9 +101,7 @@ export default function Authentication() {
               </Button>
             </div>
 
-            <Box component="form" noValidate sx={{ mt: 1 }}>
-
-              
+            <Box component="form" noValidate sx={{ mt: 1 }}>              
               {formState === 1 ? <TextField
                 margin="normal"
                 required
@@ -102,9 +109,10 @@ export default function Authentication() {
                 id="fullname"
                 label="Full Name"
                 name="fullname"
-                autoComplete="fullname"
+                value={name}
                 autoFocus
                 onChange={(e) => {setName(e.target.value)}}
+                
               />: <></>}
               <TextField
                 margin="normal"
@@ -112,6 +120,7 @@ export default function Authentication() {
                 fullWidth
                 id="username"
                 label="Username"
+                value={username}
                 name="username"
                 autoComplete="username"
                 autoFocus
@@ -122,6 +131,7 @@ export default function Authentication() {
                 required
                 fullWidth
                 name="password"
+                value={password}
                 label="Password"
                 type="password"
                 id="password"
@@ -136,19 +146,30 @@ export default function Authentication() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={handleAuth}
               >
-                {formState === 0 ? "Sign In" : "Register"}
+                {formState === 0 ? "LogIn" : "Register"}
               </Button>
             </Box>
           </Box>
         </Grid>
       </Grid>
 
-      <Snackbar 
-      open= {open}
-      autoHideDuration={4000}
-      message= {message}
-      />
+<Snackbar open={open} autoHideDuration={4000} onClose={(event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpen(false); // Your state function to close it
+  }}
+>
+  <SnackbarContent
+    message={message || "User Registered Successfully!"} // fallback
+    sx={{
+      backgroundColor: '#333',
+      color: '#fff',
+    }}
+  />
+</Snackbar>
+
+
       
     </ThemeProvider>
   );
